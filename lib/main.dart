@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pointofsale_layout/widgets/header.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,14 +15,7 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         body: Row(
           children: [
-            Expanded(
-              child: ColoredBox(
-                color: Colors.blue,
-                child: Column(
-                  children: [Text('Place Product Selection UI Elements Here.')],
-                ),
-              ),
-            ),
+            Expanded(child: Column(children: [Header()])),
             SizedBox(
               width: 350,
               child: ColoredBox(
