@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pointofsale_layout/models/product_filter_category.dart';
+import 'package:pointofsale_layout/models/product.dart';
+import 'package:pointofsale_layout/models/product_category.dart';
 import 'package:pointofsale_layout/widgets/filter_button_bar.dart';
 import 'package:pointofsale_layout/widgets/header.dart';
+import 'package:pointofsale_layout/widgets/product_grid.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -11,9 +13,16 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  var selectedCategory = ProductFilterCategory.allItems;
+  var selectedCategory = ProductCategory.allItems;
+
   @override
   Widget build(BuildContext context) {
+    final filteredProducts = selectedCategory == ProductCategory.allItems
+        ? dummyProducts
+        : dummyProducts
+              .where((product) => product.category == selectedCategory)
+              .toList();
+
     return Row(
       children: [
         Expanded(
@@ -32,6 +41,7 @@ class _MainPageState extends State<MainPage> {
                     });
                   },
                 ),
+                Expanded(child: ProductGrid(products: filteredProducts)),
               ],
             ),
           ),

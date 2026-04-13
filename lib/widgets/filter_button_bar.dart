@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pointofsale_layout/models/product_filter_category.dart';
+import 'package:pointofsale_layout/models/product_category.dart';
 
 class FilterButtonBar extends StatelessWidget {
   const FilterButtonBar({
@@ -8,9 +8,9 @@ class FilterButtonBar extends StatelessWidget {
     required this.onCategorySelected,
   });
 
-  final List<ProductFilterCategory> categories = ProductFilterCategory.values;
-  final ProductFilterCategory selectedCategory;
-  final ValueChanged<ProductFilterCategory> onCategorySelected;
+  final List<ProductCategory> categories = ProductCategory.values;
+  final ProductCategory selectedCategory;
+  final ValueChanged<ProductCategory> onCategorySelected;
 
   @override
   Widget build(BuildContext context) {
