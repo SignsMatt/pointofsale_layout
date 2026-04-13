@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pointofsale_layout/widgets/header.dart';
+import 'package:pointofsale_layout/main_page.dart';
+import 'package:pointofsale_layout/theme/app_theme.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,28 +13,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Row(
-          children: [
-            Expanded(child: Column(children: [Header()])),
-            SizedBox(
-              width: 350,
-              child: ColoredBox(
-                color: Colors.red,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Place Order Status and Checkout Elements Here.',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      theme: AppTheme.light,
+      home: Scaffold(body: MainPage()),
     );
   }
 }
