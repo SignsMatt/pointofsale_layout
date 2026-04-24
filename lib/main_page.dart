@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/models/product.dart';
 import 'package:pointofsale_layout/models/product_category.dart';
+import 'package:pointofsale_layout/widgets/bottom_action_bar.dart';
+import 'package:pointofsale_layout/widgets/current_order_panel.dart';
 import 'package:pointofsale_layout/widgets/filter_button_bar.dart';
 import 'package:pointofsale_layout/widgets/header.dart';
 import 'package:pointofsale_layout/widgets/product_grid.dart';
@@ -23,43 +25,93 @@ class _MainPageState extends State<MainPage> {
               .where((product) => product.category == selectedCategory)
               .toList();
 
-    return Row(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              spacing: 20,
-              crossAxisAlignment: .start,
-              children: [
-                Header(),
-                FilterButtonBar(
-                  selectedCategory: selectedCategory,
-                  onCategorySelected: (value) {
-                    setState(() {
-                      selectedCategory = value;
-                    });
-                  },
-                ),
-                Expanded(child: ProductGrid(products: filteredProducts)),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 350,
-          child: ColoredBox(
-            color: Colors.red,
-            child: Column(
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isCompact = constraints.maxWidth < 1120;
+            final orderPanelHeight = (constraints.maxHeight * 0.56).clamp(
+              420.0,
+              690.0,
+            );
+
+            if (isCompact) {
+              return Column(
+                spacing: 10,
+                children: [
+                  Expanded(
+                    child: _CatalogSection(
+                      products: filteredProducts,
+                      selectedCategory: selectedCategory,
+                      onCategorySelected: (value) {
+                        setState(() {
+                          selectedCategory = value;
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: orderPanelHeight.toDouble(),
+                    width: double.infinity,
+                    child: const CurrentOrderPanel(),
+                  ),
+                ],
+              );
+            }
+
+            return Row(
+              spacing: 10,
               children: [
                 Expanded(
-                  child: Text('Place Order Status and Checkout Elements Here.'),
+                  child: _CatalogSection(
+                    products: filteredProducts,
+                    selectedCategory: selectedCategory,
+                    onCategorySelected: (value) {
+                      setState(() {
+                        selectedCategory = value;
+                      });
+                    },
+                  ),
                 ),
+                const SizedBox(width: 370, child: CurrentOrderPanel()),
               ],
-            ),
-          ),
+            );
+          },
         ),
-      ],
+      ),
+    );
+  }
+}
+
+class _CatalogSection extends StatelessWidget {
+  const _CatalogSection({
+    required this.products,
+    required this.selectedCategory,
+    required this.onCategorySelected,
+  });
+
+  final List<Product> products;
+  final ProductCategory selectedCategory;
+  final ValueChanged<ProductCategory> onCategorySelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 10, 12, 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 16,
+        children: [
+          const Header(),
+          FilterButtonBar(
+            selectedCategory: selectedCategory,
+            onCategorySelected: onCategorySelected,
+          ),
+          Expanded(child: ProductGrid(products: products)),
+          const BottomActionBar(),
+        ],
+      ),
     );
   }
 }
