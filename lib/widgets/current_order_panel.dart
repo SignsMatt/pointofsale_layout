@@ -35,7 +35,6 @@ class CurrentOrderPanel extends StatelessWidget {
       quantity: 2,
       totalPrice: 3.50,
       thumbnail: '🍄',
-      muted: true,
     ),
   ];
 
@@ -58,7 +57,7 @@ class CurrentOrderPanel extends StatelessWidget {
                 const Expanded(
                   child: Text(
                     'Current Order',
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                   ),
                 ),
                 _FlatTagButton(
@@ -74,12 +73,25 @@ class CurrentOrderPanel extends StatelessWidget {
                 spacing: 10,
                 children: [
                   Expanded(
-                    child: ListView.separated(
-                      itemCount: _orderItems.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 8),
-                      itemBuilder: (context, index) {
-                        return _OrderLine(item: _orderItems[index]);
-                      },
+                    child: Stack(
+                      children: [
+                        ListView.separated(
+                          padding: const EdgeInsets.only(bottom: 52),
+                          itemCount: _orderItems.length,
+                          separatorBuilder: (_, _) =>
+                              const SizedBox(height: 15),
+                          itemBuilder: (context, index) {
+                            return _OrderLine(item: _orderItems[index]);
+                          },
+                        ),
+                        const Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          height: 56,
+                          child: IgnorePointer(child: _OrderListFade()),
+                        ),
+                      ],
                     ),
                   ),
                   const _TotalsCard(),
@@ -132,7 +144,7 @@ class _OrderLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = Row(
+    return Row(
       spacing: 8,
       children: [
         Container(
@@ -178,17 +190,28 @@ class _OrderLine extends StatelessWidget {
           child: Text(
             '\$${item.totalPrice.toStringAsFixed(2)}',
             textAlign: TextAlign.right,
-            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
           ),
         ),
       ],
     );
+  }
+}
 
-    if (!item.muted) {
-      return content;
-    }
+class _OrderListFade extends StatelessWidget {
+  const _OrderListFade();
 
-    return Opacity(opacity: 0.35, child: IgnorePointer(child: content));
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [AppColors.white.withValues(alpha: 0), AppColors.white],
+        ),
+      ),
+    );
   }
 }
 
@@ -241,7 +264,7 @@ class _PriceLine extends StatelessWidget {
           label,
           style: TextStyle(
             color: emphasize ? AppColors.inkStrong : AppColors.inkMuted,
-            fontSize: emphasize ? 30 : 21,
+            fontSize: emphasize ? 22 : 16,
             fontWeight: emphasize ? FontWeight.w700 : FontWeight.w500,
           ),
         ),
@@ -249,7 +272,7 @@ class _PriceLine extends StatelessWidget {
         Text(
           '\$${amount.toStringAsFixed(2)}',
           style: TextStyle(
-            fontSize: emphasize ? 36 : 22,
+            fontSize: emphasize ? 22 : 16,
             fontWeight: FontWeight.w700,
             color: AppColors.inkStrong,
           ),
@@ -380,7 +403,6 @@ class _OrderItem {
     required this.totalPrice,
     required this.thumbnail,
     this.destructiveControl = false,
-    this.muted = false,
   });
 
   final String name;
@@ -388,5 +410,4 @@ class _OrderItem {
   final double totalPrice;
   final String thumbnail;
   final bool destructiveControl;
-  final bool muted;
 }

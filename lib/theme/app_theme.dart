@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
 
 class AppTheme {
@@ -8,6 +9,7 @@ class AppTheme {
     return ThemeData(
       scaffoldBackgroundColor: AppColors.white,
       colorScheme: const ColorScheme.light(surface: AppColors.white),
+      textTheme: GoogleFonts.interTextTheme(),
       chipTheme: ChipThemeData(
         showCheckmark: false,
         side: BorderSide.none,

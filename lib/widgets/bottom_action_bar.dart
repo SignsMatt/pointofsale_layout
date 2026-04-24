@@ -133,14 +133,11 @@ class _WristbandInfoSection extends StatelessWidget {
             ),
             SizedBox(
               height: 56,
-              width: 90,
+              width: 95,
               child: FilledButton(
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.danger,
                   foregroundColor: AppColors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
                 ),
                 onPressed: () {},
                 child: const Text('Unlink'),

@@ -37,26 +37,29 @@ class _MainPageState extends State<MainPage> {
             );
 
             if (isCompact) {
-              return Column(
-                spacing: 10,
-                children: [
-                  Expanded(
-                    child: _CatalogSection(
-                      products: filteredProducts,
-                      selectedCategory: selectedCategory,
-                      onCategorySelected: (value) {
-                        setState(() {
-                          selectedCategory = value;
-                        });
-                      },
+              return SingleChildScrollView(
+                child: Column(
+                  spacing: 10,
+                  children: [
+                    SizedBox(
+                      height: 750,
+                      child: _CatalogSection(
+                        products: filteredProducts,
+                        selectedCategory: selectedCategory,
+                        onCategorySelected: (value) {
+                          setState(() {
+                            selectedCategory = value;
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: orderPanelHeight.toDouble(),
-                    width: double.infinity,
-                    child: const CurrentOrderPanel(),
-                  ),
-                ],
+                    SizedBox(
+                      height: orderPanelHeight.toDouble(),
+                      width: double.infinity,
+                      child: const CurrentOrderPanel(),
+                    ),
+                  ],
+                ),
               );
             }
 
