@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
 
+final _promoButtonStyle = FilledButton.styleFrom(
+  backgroundColor: AppColors.promoSurface,
+  foregroundColor: AppColors.inkMuted,
+  minimumSize: const Size.fromHeight(56),
+  padding: const EdgeInsets.symmetric(horizontal: 8),
+  textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+);
+
+final _selectedPromoButtonStyle = _promoButtonStyle.copyWith(
+  backgroundColor: const WidgetStatePropertyAll(AppColors.white),
+  foregroundColor: const WidgetStatePropertyAll(AppColors.inkStrong),
+  side: const WidgetStatePropertyAll(BorderSide(color: AppColors.danger)),
+);
+
 class BottomActionBar extends StatelessWidget {
   const BottomActionBar({super.key});
 
@@ -183,52 +198,31 @@ class _PromoSection extends StatelessWidget {
         ),
         Row(
           spacing: 8,
-          children: const [
+          children: [
             Expanded(
-              child: _PromoButton(label: '\$5 Off Any Item', selected: true),
+              child: FilledButton(
+                style: _selectedPromoButtonStyle,
+                onPressed: () {},
+                child: const Text('\$5 Off Any Item'),
+              ),
             ),
-            Expanded(child: _PromoButton(label: 'Free Beverage')),
-            Expanded(child: _PromoButton(label: '20% Off Entire Order')),
+            Expanded(
+              child: FilledButton(
+                style: _promoButtonStyle,
+                onPressed: () {},
+                child: const Text('Free Beverage'),
+              ),
+            ),
+            Expanded(
+              child: FilledButton(
+                style: _promoButtonStyle,
+                onPressed: () {},
+                child: const Text('20% Off Entire Order'),
+              ),
+            ),
           ],
         ),
       ],
-    );
-  }
-}
-
-class _PromoButton extends StatelessWidget {
-  const _PromoButton({required this.label, this.selected = false});
-
-  final String label;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: selected ? AppColors.white : AppColors.promoSurface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: selected ? AppColors.danger : Colors.transparent,
-        ),
-      ),
-      child: SizedBox(
-        height: 56,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              label,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-                color: selected ? AppColors.inkStrong : AppColors.inkMuted,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

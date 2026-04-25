@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
 
+final _tagButtonStyle = TextButton.styleFrom(
+  backgroundColor: AppColors.subduedSurface,
+  foregroundColor: AppColors.inkStrong,
+  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+  textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+);
+
+final _dangerTagButtonStyle = _tagButtonStyle.copyWith(
+  backgroundColor: const WidgetStatePropertyAll(AppColors.dangerSurface),
+  foregroundColor: const WidgetStatePropertyAll(AppColors.danger),
+);
+
 class CurrentOrderPanel extends StatelessWidget {
   const CurrentOrderPanel({super.key});
 
@@ -60,10 +73,10 @@ class CurrentOrderPanel extends StatelessWidget {
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                   ),
                 ),
-                _FlatTagButton(
-                  label: 'Clear All',
-                  foreground: AppColors.danger,
-                  background: AppColors.dangerSurface,
+                TextButton(
+                  style: _dangerTagButtonStyle,
+                  onPressed: () {},
+                  child: const Text('Clear All'),
                 ),
                 _CircleIconButton(icon: Icons.settings, onPressed: () {}),
               ],
@@ -318,41 +331,18 @@ class _CashlessCreditCard extends StatelessWidget {
                 ],
               ),
             ),
-            _FlatTagButton(label: 'Cancel'),
+            TextButton(
+              style: _tagButtonStyle,
+              onPressed: () {},
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
+                child: const Text('Cancel'),
+              ),
+            ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _FlatTagButton extends StatelessWidget {
-  const _FlatTagButton({
-    required this.label,
-    this.foreground = AppColors.inkStrong,
-    this.background = AppColors.subduedSurface,
-  });
-
-  final String label;
-  final Color foreground;
-  final Color background;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: foreground,
-            fontSize: 12,
-          ),
         ),
       ),
     );
