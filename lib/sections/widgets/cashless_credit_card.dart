@@ -3,7 +3,9 @@ import 'package:pointofsale_layout/sections/widgets/tag_button_styles.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
 
 class CashlessCreditCard extends StatelessWidget {
-  const CashlessCreditCard({super.key});
+  const CashlessCreditCard({super.key, required this.availableAmount});
+
+  final double availableAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +15,12 @@ class CashlessCreditCard extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Row(
           children: [
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 2,
                 children: [
-                  Text(
+                  const Text(
                     'CASHLESS CREDIT',
                     style: TextStyle(
                       fontSize: 10,
@@ -27,14 +29,14 @@ class CashlessCreditCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '\$32.50',
-                    style: TextStyle(
+                    '\$${availableAmount.toStringAsFixed(2)}',
+                    style: const TextStyle(
                       color: AppColors.filterAccent,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Available',
                     style: TextStyle(color: Colors.black45, fontSize: 11),
                   ),
@@ -44,9 +46,9 @@ class CashlessCreditCard extends StatelessWidget {
             TextButton(
               style: tagButtonStyle,
               onPressed: () {},
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: const Text('Cancel'),
+              child: const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text('Cancel'),
               ),
             ),
           ],

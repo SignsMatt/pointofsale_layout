@@ -4,9 +4,14 @@ import 'package:pointofsale_layout/sections/widgets/product_card.dart';
 import 'package:pointofsale_layout/sections/widgets/product_grid_fade.dart';
 
 class ProductGrid extends StatelessWidget {
-  const ProductGrid({super.key, required this.products});
+  const ProductGrid({
+    super.key,
+    required this.products,
+    required this.onProductSelected,
+  });
 
   final List<Product> products;
+  final ValueChanged<Product> onProductSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,12 @@ class ProductGrid extends StatelessWidget {
                 childAspectRatio: 1.9,
               ),
               itemBuilder: (context, index) {
-                return ProductCard(product: products[index]);
+                final product = products[index];
+
+                return ProductCard(
+                  product: product,
+                  onTap: () => onProductSelected(product),
+                );
               },
             ),
             const Positioned(

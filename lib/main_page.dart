@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pointofsale_layout/models/order_item.dart';
 import 'package:pointofsale_layout/models/product.dart';
 import 'package:pointofsale_layout/models/product_category.dart';
 import 'package:pointofsale_layout/sections/bottom_action_bar.dart';
@@ -16,6 +17,66 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   var selectedCategory = ProductCategory.allItems;
+  var orderItems = <OrderItem>[];
+
+  void _addProductToOrder(Product product) {
+    setState(() {
+      final existingIndex = orderItems.indexWhere(
+        (item) => item.product == product,
+      );
+
+      if (existingIndex == -1) {
+        orderItems = [...orderItems, OrderItem(product: product, quantity: 1)];
+        return;
+      }
+
+      orderItems = [
+        for (var i = 0; i < orderItems.length; i++)
+          if (i == existingIndex)
+            orderItems[i].copyWith(quantity: orderItems[i].quantity + 1)
+          else
+            orderItems[i],
+      ];
+    });
+  }
+
+  void _incrementOrderItem(OrderItem item) {
+    setState(() {
+      orderItems = [
+        for (final orderItem in orderItems)
+          if (orderItem.product == item.product)
+            orderItem.copyWith(quantity: orderItem.quantity + 1)
+          else
+            orderItem,
+      ];
+    });
+  }
+
+  void _decrementOrderItem(OrderItem item) {
+    setState(() {
+      if (item.quantity == 1) {
+        orderItems = [
+          for (final orderItem in orderItems)
+            if (orderItem.product != item.product) orderItem,
+        ];
+        return;
+      }
+
+      orderItems = [
+        for (final orderItem in orderItems)
+          if (orderItem.product == item.product)
+            orderItem.copyWith(quantity: orderItem.quantity - 1)
+          else
+            orderItem,
+      ];
+    });
+  }
+
+  void _clearOrder() {
+    setState(() {
+      orderItems = [];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +106,7 @@ class _MainPageState extends State<MainPage> {
                       child: _CatalogSection(
                         products: filteredProducts,
                         selectedCategory: selectedCategory,
+                        onProductSelected: _addProductToOrder,
                         onCategorySelected: (value) {
                           setState(() {
                             selectedCategory = value;
@@ -55,7 +117,12 @@ class _MainPageState extends State<MainPage> {
                     SizedBox(
                       height: compactOrderPanelHeight,
                       width: double.infinity,
-                      child: const CurrentOrderPanel(),
+                      child: CurrentOrderPanel(
+                        orderItems: orderItems,
+                        onIncrementItem: _incrementOrderItem,
+                        onDecrementItem: _decrementOrderItem,
+                        onClearOrder: _clearOrder,
+                      ),
                     ),
                   ],
                 ),
@@ -74,6 +141,7 @@ class _MainPageState extends State<MainPage> {
                       child: _CatalogSection(
                         products: filteredProducts,
                         selectedCategory: selectedCategory,
+                        onProductSelected: _addProductToOrder,
                         onCategorySelected: (value) {
                           setState(() {
                             selectedCategory = value;
@@ -81,7 +149,15 @@ class _MainPageState extends State<MainPage> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 370, child: CurrentOrderPanel()),
+                    SizedBox(
+                      width: 370,
+                      child: CurrentOrderPanel(
+                        orderItems: orderItems,
+                        onIncrementItem: _incrementOrderItem,
+                        onDecrementItem: _decrementOrderItem,
+                        onClearOrder: _clearOrder,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -98,11 +174,13 @@ class _CatalogSection extends StatelessWidget {
     required this.products,
     required this.selectedCategory,
     required this.onCategorySelected,
+    required this.onProductSelected,
   });
 
   final List<Product> products;
   final ProductCategory selectedCategory;
   final ValueChanged<ProductCategory> onCategorySelected;
+  final ValueChanged<Product> onProductSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +195,12 @@ class _CatalogSection extends StatelessWidget {
             selectedCategory: selectedCategory,
             onCategorySelected: onCategorySelected,
           ),
-          Expanded(child: ProductGrid(products: products)),
+          Expanded(
+            child: ProductGrid(
+              products: products,
+              onProductSelected: onProductSelected,
+            ),
+          ),
           const BottomActionBar(),
         ],
       ),

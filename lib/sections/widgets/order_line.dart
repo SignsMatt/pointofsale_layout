@@ -8,9 +8,16 @@ final _dangerIconButtonStyle = IconButton.styleFrom(
 );
 
 class OrderLine extends StatelessWidget {
-  const OrderLine({super.key, required this.item});
+  const OrderLine({
+    super.key,
+    required this.item,
+    required this.onIncrement,
+    required this.onDecrement,
+  });
 
   final OrderItem item;
+  final VoidCallback onIncrement;
+  final VoidCallback onDecrement;
 
   @override
   Widget build(BuildContext context) {
@@ -25,28 +32,29 @@ class OrderLine extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           alignment: Alignment.center,
-          child: Text(item.thumbnail, style: const TextStyle(fontSize: 22)),
+          child: Text(
+            item.product.thumbnail,
+            style: const TextStyle(fontSize: 22),
+          ),
         ),
         Expanded(
           child: Text(
-            item.name,
+            item.product.name,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.w600),
           ),
         ),
         IconButton(
-          onPressed: () {},
-          style: item.destructiveControl ? _dangerIconButtonStyle : null,
-          icon: Icon(
-            item.destructiveControl ? Icons.delete_outline : Icons.remove,
-          ),
+          onPressed: onDecrement,
+          style: item.quantity == 1 ? _dangerIconButtonStyle : null,
+          icon: Icon(item.quantity == 1 ? Icons.delete_outline : Icons.remove),
         ),
         Text(
           item.quantity.toString(),
           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
         ),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+        IconButton(onPressed: onIncrement, icon: const Icon(Icons.add)),
         SizedBox(
           width: 52,
           child: Text(

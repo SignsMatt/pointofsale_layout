@@ -8,7 +8,42 @@ import 'package:pointofsale_layout/sections/widgets/totals_card.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
 
 class CurrentOrderPanel extends StatelessWidget {
-  const CurrentOrderPanel({super.key});
+  const CurrentOrderPanel({
+    super.key,
+    required this.orderItems,
+    required this.onIncrementItem,
+    required this.onDecrementItem,
+    required this.onClearOrder,
+  });
+
+  final List<OrderItem> orderItems;
+  final ValueChanged<OrderItem> onIncrementItem;
+  final ValueChanged<OrderItem> onDecrementItem;
+  final VoidCallback onClearOrder;
+
+  static const _cashlessCredit = 32.50;
+
+  double get subtotal {
+    return orderItems.fold(0, (total, item) => total + item.totalPrice);
+  }
+
+  double get discounts {
+    if (subtotal == 0) return 0;
+    return subtotal < 5 ? -subtotal : -5.00;
+  }
+
+  double get salesTax {
+    return (subtotal + discounts) * 0.064;
+  }
+
+  double get total {
+    return subtotal + discounts + salesTax;
+  }
+
+  double get balanceDue {
+    final balance = total - _cashlessCredit;
+    return balance < 0 ? 0 : balance;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +69,10 @@ class CurrentOrderPanel extends StatelessWidget {
                 ),
                 TextButton(
                   style: dangerTagButtonStyle,
-                  onPressed: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: const Text('Clear All'),
+                  onPressed: orderItems.isEmpty ? null : onClearOrder,
+                  child: const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('Clear All'),
                   ),
                 ),
                 IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
@@ -50,15 +85,29 @@ class CurrentOrderPanel extends StatelessWidget {
                   Expanded(
                     child: Stack(
                       children: [
-                        ListView.separated(
-                          padding: const EdgeInsets.only(bottom: 52),
-                          itemCount: orderItems.length,
-                          separatorBuilder: (_, _) =>
-                              const SizedBox(height: 15),
-                          itemBuilder: (context, index) {
-                            return OrderLine(item: orderItems[index]);
-                          },
-                        ),
+                        if (orderItems.isEmpty)
+                          const Center(
+                            child: Text(
+                              'No items yet',
+                              style: TextStyle(color: AppColors.inkMuted),
+                            ),
+                          )
+                        else
+                          ListView.separated(
+                            padding: const EdgeInsets.only(bottom: 52),
+                            itemCount: orderItems.length,
+                            separatorBuilder: (_, _) =>
+                                const SizedBox(height: 15),
+                            itemBuilder: (context, index) {
+                              final item = orderItems[index];
+
+                              return OrderLine(
+                                item: item,
+                                onIncrement: () => onIncrementItem(item),
+                                onDecrement: () => onDecrementItem(item),
+                              );
+                            },
+                          ),
                         const Positioned(
                           left: 0,
                           right: 0,
@@ -69,8 +118,13 @@ class CurrentOrderPanel extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const TotalsCard(),
-                  const CashlessCreditCard(),
+                  TotalsCard(
+                    subtotal: subtotal,
+                    discounts: discounts,
+                    salesTax: salesTax,
+                    total: total,
+                  ),
+                  const CashlessCreditCard(availableAmount: _cashlessCredit),
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
@@ -86,16 +140,16 @@ class CurrentOrderPanel extends StatelessWidget {
                       child: const Text('Pay With Cashless Credit'),
                     ),
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text(
+                      const Text(
                         'Balance Due',
                         style: TextStyle(color: Colors.black54),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        '\$5.00',
-                        style: TextStyle(
+                        '\$${balanceDue.toStringAsFixed(2)}',
+                        style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           color: AppColors.inkStrong,
                         ),
