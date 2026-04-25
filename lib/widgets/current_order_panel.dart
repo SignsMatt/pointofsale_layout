@@ -220,11 +220,8 @@ class _TotalsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.panelSurface,
-        borderRadius: BorderRadius.circular(14),
-      ),
+    return Card(
+      elevation: 5,
       child: const Padding(
         padding: EdgeInsets.all(14),
         child: Column(
@@ -287,11 +284,8 @@ class _CashlessCreditCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.panelSurface,
-        borderRadius: BorderRadius.circular(14),
-      ),
+    return Card(
+      elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Row(
@@ -313,7 +307,7 @@ class _CashlessCreditCard extends StatelessWidget {
                     '\$32.50',
                     style: TextStyle(
                       color: AppColors.filterAccent,
-                      fontSize: 30,
+                      fontSize: 20,
                       fontWeight: FontWeight.w700,
                     ),
                   ),

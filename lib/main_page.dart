@@ -31,10 +31,9 @@ class _MainPageState extends State<MainPage> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final isCompact = constraints.maxWidth < 1120;
-            final orderPanelHeight = (constraints.maxHeight * 0.56).clamp(
-              420.0,
-              690.0,
-            );
+            const compactCatalogHeight = 750.0;
+            const compactOrderPanelHeight = 690.0;
+            const desktopMinHeight = 690.0;
 
             if (isCompact) {
               return SingleChildScrollView(
@@ -42,7 +41,7 @@ class _MainPageState extends State<MainPage> {
                   spacing: 10,
                   children: [
                     SizedBox(
-                      height: 750,
+                      height: compactCatalogHeight,
                       child: _CatalogSection(
                         products: filteredProducts,
                         selectedCategory: selectedCategory,
@@ -54,7 +53,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                     ),
                     SizedBox(
-                      height: orderPanelHeight.toDouble(),
+                      height: compactOrderPanelHeight,
                       width: double.infinity,
                       child: const CurrentOrderPanel(),
                     ),
@@ -63,22 +62,29 @@ class _MainPageState extends State<MainPage> {
               );
             }
 
-            return Row(
-              spacing: 10,
-              children: [
-                Expanded(
-                  child: _CatalogSection(
-                    products: filteredProducts,
-                    selectedCategory: selectedCategory,
-                    onCategorySelected: (value) {
-                      setState(() {
-                        selectedCategory = value;
-                      });
-                    },
-                  ),
+            return SingleChildScrollView(
+              child: SizedBox(
+                height: constraints.maxHeight < desktopMinHeight
+                    ? desktopMinHeight
+                    : constraints.maxHeight,
+                child: Row(
+                  spacing: 10,
+                  children: [
+                    Expanded(
+                      child: _CatalogSection(
+                        products: filteredProducts,
+                        selectedCategory: selectedCategory,
+                        onCategorySelected: (value) {
+                          setState(() {
+                            selectedCategory = value;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 370, child: CurrentOrderPanel()),
+                  ],
                 ),
-                const SizedBox(width: 370, child: CurrentOrderPanel()),
-              ],
+              ),
             );
           },
         ),
