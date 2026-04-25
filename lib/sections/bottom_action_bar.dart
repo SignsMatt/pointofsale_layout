@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/sections/widgets/promo_section.dart';
 import 'package:pointofsale_layout/sections/widgets/wristband_info_section.dart';
-import 'package:pointofsale_layout/theme/app_colors.dart';
+import 'package:pointofsale_layout/theme/app_theme_colors.dart';
 
 class BottomActionBar extends StatelessWidget {
   const BottomActionBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppThemeColors.of(context);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final isCompact = constraints.maxWidth < 780;
@@ -29,11 +31,7 @@ class BottomActionBar extends StatelessWidget {
               spacing: 16,
               children: [
                 const Expanded(flex: 4, child: WristbandInfoSection()),
-                Container(
-                  color: AppColors.sectionMuted,
-                  height: 55,
-                  width: 0.5,
-                ),
+                Container(color: colors.sectionMuted, height: 55, width: 0.5),
                 const Expanded(flex: 6, child: PromoSection()),
               ],
             ),

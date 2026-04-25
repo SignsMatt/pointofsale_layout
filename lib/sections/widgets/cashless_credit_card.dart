@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/sections/widgets/tag_button_styles.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
+import 'package:pointofsale_layout/theme/app_theme_colors.dart';
 
 class CashlessCreditCard extends StatelessWidget {
   const CashlessCreditCard({super.key, required this.availableAmount});
@@ -9,6 +10,8 @@ class CashlessCreditCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppThemeColors.of(context);
+
     return Card(
       elevation: 5,
       child: Padding(
@@ -20,12 +23,12 @@ class CashlessCreditCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 2,
                 children: [
-                  const Text(
+                  Text(
                     'CASHLESS CREDIT',
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.inkMuted,
+                      color: colors.inkMuted,
                     ),
                   ),
                   Text(
@@ -36,15 +39,15 @@ class CashlessCreditCard extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Available',
-                    style: TextStyle(color: Colors.black45, fontSize: 11),
+                    style: TextStyle(color: colors.sectionMuted, fontSize: 11),
                   ),
                 ],
               ),
             ),
             TextButton(
-              style: tagButtonStyle,
+              style: tagButtonStyle(context),
               onPressed: () {},
               child: const Padding(
                 padding: EdgeInsets.all(20.0),

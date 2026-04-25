@@ -6,6 +6,7 @@ import 'package:pointofsale_layout/sections/widgets/order_list_fade.dart';
 import 'package:pointofsale_layout/sections/widgets/tag_button_styles.dart';
 import 'package:pointofsale_layout/sections/widgets/totals_card.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
+import 'package:pointofsale_layout/theme/app_theme_colors.dart';
 
 class CurrentOrderPanel extends StatelessWidget {
   const CurrentOrderPanel({
@@ -14,12 +15,16 @@ class CurrentOrderPanel extends StatelessWidget {
     required this.onIncrementItem,
     required this.onDecrementItem,
     required this.onClearOrder,
+    required this.isDarkMode,
+    required this.onToggleThemeMode,
   });
 
   final List<OrderItem> orderItems;
   final ValueChanged<OrderItem> onIncrementItem;
   final ValueChanged<OrderItem> onDecrementItem;
   final VoidCallback onClearOrder;
+  final bool isDarkMode;
+  final VoidCallback onToggleThemeMode;
 
   static const _cashlessCredit = 32.50;
 
@@ -47,9 +52,11 @@ class CurrentOrderPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppThemeColors.of(context);
+
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colors.panelSurface,
         borderRadius: BorderRadius.circular(24),
       ),
       child: Padding(
@@ -64,16 +71,21 @@ class CurrentOrderPanel extends StatelessWidget {
                 const Expanded(
                   child: Text(
                     'Current Order',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                   ),
                 ),
                 TextButton(
-                  style: dangerTagButtonStyle,
+                  style: dangerTagButtonStyle(context),
                   onPressed: orderItems.isEmpty ? null : onClearOrder,
                   child: const Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Text('Clear All'),
                   ),
+                ),
+                IconButton(
+                  onPressed: onToggleThemeMode,
+                  icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
+                  tooltip: isDarkMode ? 'Use light mode' : 'Use dark mode',
                 ),
                 IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
               ],
@@ -86,10 +98,10 @@ class CurrentOrderPanel extends StatelessWidget {
                     child: Stack(
                       children: [
                         if (orderItems.isEmpty)
-                          const Center(
+                          Center(
                             child: Text(
                               'No items yet',
-                              style: TextStyle(color: AppColors.inkMuted),
+                              style: TextStyle(color: colors.inkMuted),
                             ),
                           )
                         else
@@ -142,16 +154,16 @@ class CurrentOrderPanel extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      const Text(
+                      Text(
                         'Balance Due',
-                        style: TextStyle(color: Colors.black54),
+                        style: TextStyle(color: colors.inkMuted),
                       ),
                       const Spacer(),
                       Text(
                         '\$${balanceDue.toStringAsFixed(2)}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          color: AppColors.inkStrong,
+                          color: colors.inkStrong,
                         ),
                       ),
                     ],

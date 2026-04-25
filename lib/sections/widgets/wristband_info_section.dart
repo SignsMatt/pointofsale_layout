@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
+import 'package:pointofsale_layout/theme/app_theme_colors.dart';
 
 class WristbandInfoSection extends StatelessWidget {
   const WristbandInfoSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppThemeColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
       children: [
-        const Text(
+        Text(
           'WRISTBAND INFORMATION',
           style: TextStyle(
             fontSize: 10,
-            color: AppColors.sectionLabel,
+            color: colors.sectionLabel,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.25,
           ),
@@ -25,21 +28,24 @@ class WristbandInfoSection extends StatelessWidget {
             Expanded(
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: colors.cardSurface,
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 8,
+                  ),
                   child: Row(
                     spacing: 10,
                     children: [
                       CircleAvatar(
                         radius: 19,
-                        backgroundColor: AppColors.avatarSurface,
+                        backgroundColor: colors.avatarSurface,
                         child: Text(
                           'ER',
                           style: TextStyle(
-                            color: AppColors.avatarText,
+                            color: colors.avatarText,
                             fontWeight: FontWeight.w700,
                             fontSize: 12,
                           ),
@@ -56,6 +62,7 @@ class WristbandInfoSection extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 13,
+                                color: colors.inkStrong,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),

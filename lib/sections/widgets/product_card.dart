@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/models/product.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
+import 'package:pointofsale_layout/theme/app_theme_colors.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key, required this.product, required this.onTap});
@@ -10,13 +11,15 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppThemeColors.of(context);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final thumbnailSize = (constraints.maxWidth * 0.28).clamp(64.0, 150.0);
         final thumbnailEmojiSize = (thumbnailSize * 0.48).clamp(28.0, 110.0);
 
         return Material(
-          color: AppColors.white,
+          color: colors.cardSurface,
           borderRadius: BorderRadius.circular(14),
           child: InkWell(
             onTap: onTap,
@@ -24,7 +27,7 @@ class ProductCard extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.black12),
+                border: Border.all(color: colors.subtleBorder),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(14),
@@ -48,8 +51,8 @@ class ProductCard extends StatelessWidget {
                           ),
                           Text(
                             '${product.weightGrams}g',
-                            style: const TextStyle(
-                              color: Colors.black54,
+                            style: TextStyle(
+                              color: colors.inkMuted,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -69,7 +72,7 @@ class ProductCard extends StatelessWidget {
                       alignment: Alignment.bottomCenter,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: AppColors.neutralSurface,
+                          color: colors.mutedSurface,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: SizedBox(

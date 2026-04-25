@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pointofsale_layout/theme/app_colors.dart';
+import 'package:pointofsale_layout/theme/app_theme_colors.dart';
 
 class PriceLine extends StatelessWidget {
   const PriceLine({
@@ -15,12 +15,14 @@ class PriceLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppThemeColors.of(context);
+
     return Row(
       children: [
         Text(
           label,
           style: TextStyle(
-            color: emphasize ? AppColors.inkStrong : AppColors.inkMuted,
+            color: emphasize ? colors.inkStrong : colors.inkMuted,
             fontSize: emphasize ? 22 : 16,
             fontWeight: emphasize ? FontWeight.w700 : FontWeight.w500,
           ),
@@ -31,7 +33,7 @@ class PriceLine extends StatelessWidget {
           style: TextStyle(
             fontSize: emphasize ? 22 : 16,
             fontWeight: FontWeight.w700,
-            color: AppColors.inkStrong,
+            color: colors.inkStrong,
           ),
         ),
       ],

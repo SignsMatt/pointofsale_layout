@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/models/order_item.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
-
-final _dangerIconButtonStyle = IconButton.styleFrom(
-  backgroundColor: AppColors.dangerSurface,
-  foregroundColor: AppColors.danger,
-);
+import 'package:pointofsale_layout/theme/app_theme_colors.dart';
 
 class OrderLine extends StatelessWidget {
   const OrderLine({
@@ -21,6 +17,12 @@ class OrderLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppThemeColors.of(context);
+    final dangerIconButtonStyle = IconButton.styleFrom(
+      backgroundColor: colors.dangerSurface,
+      foregroundColor: AppColors.danger,
+    );
+
     return Row(
       spacing: 8,
       children: [
@@ -28,7 +30,7 @@ class OrderLine extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: AppColors.neutralSurface,
+            color: colors.mutedSurface,
             borderRadius: BorderRadius.circular(10),
           ),
           alignment: Alignment.center,
@@ -42,12 +44,15 @@ class OrderLine extends StatelessWidget {
             item.product.name,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: colors.inkStrong,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         IconButton(
           onPressed: onDecrement,
-          style: item.quantity == 1 ? _dangerIconButtonStyle : null,
+          style: item.quantity == 1 ? dangerIconButtonStyle : null,
           icon: Icon(item.quantity == 1 ? Icons.delete_outline : Icons.remove),
         ),
         Text(
@@ -60,7 +65,11 @@ class OrderLine extends StatelessWidget {
           child: Text(
             '\$${item.totalPrice.toStringAsFixed(2)}',
             textAlign: TextAlign.right,
-            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+            style: TextStyle(
+              color: colors.inkStrong,
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
+            ),
           ),
         ),
       ],

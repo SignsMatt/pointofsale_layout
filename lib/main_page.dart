@@ -9,7 +9,14 @@ import 'package:pointofsale_layout/sections/header.dart';
 import 'package:pointofsale_layout/sections/product_grid.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  const MainPage({
+    super.key,
+    required this.isDarkMode,
+    required this.onToggleThemeMode,
+  });
+
+  final bool isDarkMode;
+  final VoidCallback onToggleThemeMode;
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -122,6 +129,8 @@ class _MainPageState extends State<MainPage> {
                         onIncrementItem: _incrementOrderItem,
                         onDecrementItem: _decrementOrderItem,
                         onClearOrder: _clearOrder,
+                        isDarkMode: widget.isDarkMode,
+                        onToggleThemeMode: widget.onToggleThemeMode,
                       ),
                     ),
                   ],
@@ -156,6 +165,8 @@ class _MainPageState extends State<MainPage> {
                         onIncrementItem: _incrementOrderItem,
                         onDecrementItem: _decrementOrderItem,
                         onClearOrder: _clearOrder,
+                        isDarkMode: widget.isDarkMode,
+                        onToggleThemeMode: widget.onToggleThemeMode,
                       ),
                     ),
                   ],

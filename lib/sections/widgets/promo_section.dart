@@ -1,38 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
-
-final _promoButtonStyle = FilledButton.styleFrom(
-  backgroundColor: AppColors.promoSurface,
-  foregroundColor: AppColors.inkMuted,
-  minimumSize: const Size.fromHeight(56),
-  padding: const EdgeInsets.symmetric(horizontal: 8),
-  textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
-  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-);
-
-final _selectedPromoButtonStyle = _promoButtonStyle.copyWith(
-  backgroundColor: const WidgetStatePropertyAll(AppColors.white),
-  foregroundColor: const WidgetStatePropertyAll(AppColors.inkStrong),
-  side: const WidgetStatePropertyAll(BorderSide(color: AppColors.danger)),
-);
+import 'package:pointofsale_layout/theme/app_theme_colors.dart';
 
 class PromoSection extends StatelessWidget {
   const PromoSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppThemeColors.of(context);
+    final promoButtonStyle = FilledButton.styleFrom(
+      backgroundColor: colors.promoSurface,
+      foregroundColor: colors.inkMuted,
+      minimumSize: const Size.fromHeight(56),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    );
+    final selectedPromoButtonStyle = promoButtonStyle.copyWith(
+      backgroundColor: WidgetStatePropertyAll(colors.cardSurface),
+      foregroundColor: WidgetStatePropertyAll(colors.inkStrong),
+      side: const WidgetStatePropertyAll(BorderSide(color: AppColors.danger)),
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
       children: [
-        const Row(
+        Row(
           spacing: 6,
           children: [
             Text(
               'SELECT AVAILABLE PROMO TO APPLY',
               style: TextStyle(
                 fontSize: 10,
-                color: AppColors.sectionLabel,
+                color: colors.sectionLabel,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.25,
               ),
@@ -41,7 +42,7 @@ class PromoSection extends StatelessWidget {
               '(LIMIT 1 PER ORDER)',
               style: TextStyle(
                 fontSize: 9,
-                color: AppColors.sectionMuted,
+                color: colors.sectionMuted,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -52,21 +53,21 @@ class PromoSection extends StatelessWidget {
           children: [
             Expanded(
               child: FilledButton(
-                style: _selectedPromoButtonStyle,
+                style: selectedPromoButtonStyle,
                 onPressed: () {},
                 child: const Text('\$5 Off Any Item'),
               ),
             ),
             Expanded(
               child: FilledButton(
-                style: _promoButtonStyle,
+                style: promoButtonStyle,
                 onPressed: () {},
                 child: const Text('Free Beverage'),
               ),
             ),
             Expanded(
               child: FilledButton(
-                style: _promoButtonStyle,
+                style: promoButtonStyle,
                 onPressed: () {},
                 child: const Text('20% Off Entire Order'),
               ),
