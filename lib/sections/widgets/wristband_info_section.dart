@@ -1,64 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
 
-final _promoButtonStyle = FilledButton.styleFrom(
-  backgroundColor: AppColors.promoSurface,
-  foregroundColor: AppColors.inkMuted,
-  minimumSize: const Size.fromHeight(56),
-  padding: const EdgeInsets.symmetric(horizontal: 8),
-  textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
-  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-);
-
-final _selectedPromoButtonStyle = _promoButtonStyle.copyWith(
-  backgroundColor: const WidgetStatePropertyAll(AppColors.white),
-  foregroundColor: const WidgetStatePropertyAll(AppColors.inkStrong),
-  side: const WidgetStatePropertyAll(BorderSide(color: AppColors.danger)),
-);
-
-class BottomActionBar extends StatelessWidget {
-  const BottomActionBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isCompact = constraints.maxWidth < 780;
-
-        if (isCompact) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 12,
-            children: const [_WristbandInfoSection(), _PromoSection()],
-          );
-        }
-
-        return Card(
-          elevation: 8,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              spacing: 16,
-              children: [
-                Expanded(flex: 4, child: _WristbandInfoSection()),
-                Container(
-                  color: AppColors.sectionMuted,
-                  height: 55,
-                  width: 0.5,
-                ),
-                Expanded(flex: 6, child: _PromoSection()),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class _WristbandInfoSection extends StatelessWidget {
-  const _WristbandInfoSection();
+class WristbandInfoSection extends StatelessWidget {
+  const WristbandInfoSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +27,6 @@ class _WristbandInfoSection extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(14),
-                  // border: Border.all(color: AppColors.subtleBorder),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -156,68 +99,6 @@ class _WristbandInfoSection extends StatelessWidget {
                 ),
                 onPressed: () {},
                 child: const Text('Unlink'),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _PromoSection extends StatelessWidget {
-  const _PromoSection();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 8,
-      children: [
-        const Row(
-          spacing: 6,
-          children: [
-            Text(
-              'SELECT AVAILABLE PROMO TO APPLY',
-              style: TextStyle(
-                fontSize: 10,
-                color: AppColors.sectionLabel,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.25,
-              ),
-            ),
-            Text(
-              '(LIMIT 1 PER ORDER)',
-              style: TextStyle(
-                fontSize: 9,
-                color: AppColors.sectionMuted,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-        Row(
-          spacing: 8,
-          children: [
-            Expanded(
-              child: FilledButton(
-                style: _selectedPromoButtonStyle,
-                onPressed: () {},
-                child: const Text('\$5 Off Any Item'),
-              ),
-            ),
-            Expanded(
-              child: FilledButton(
-                style: _promoButtonStyle,
-                onPressed: () {},
-                child: const Text('Free Beverage'),
-              ),
-            ),
-            Expanded(
-              child: FilledButton(
-                style: _promoButtonStyle,
-                onPressed: () {},
-                child: const Text('20% Off Entire Order'),
               ),
             ),
           ],

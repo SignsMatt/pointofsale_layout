@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/models/product.dart';
 import 'package:pointofsale_layout/models/product_category.dart';
-import 'package:pointofsale_layout/widgets/bottom_action_bar.dart';
-import 'package:pointofsale_layout/widgets/current_order_panel.dart';
-import 'package:pointofsale_layout/widgets/filter_button_bar.dart';
-import 'package:pointofsale_layout/widgets/header.dart';
-import 'package:pointofsale_layout/widgets/product_grid.dart';
+import 'package:pointofsale_layout/sections/bottom_action_bar.dart';
+import 'package:pointofsale_layout/sections/current_order_panel.dart';
+import 'package:pointofsale_layout/sections/filter_button_bar.dart';
+import 'package:pointofsale_layout/sections/header.dart';
+import 'package:pointofsale_layout/sections/product_grid.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

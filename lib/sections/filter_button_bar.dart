@@ -8,18 +8,17 @@ class FilterButtonBar extends StatelessWidget {
     required this.onCategorySelected,
   });
 
-  final List<ProductCategory> categories = ProductCategory.values;
   final ProductCategory selectedCategory;
   final ValueChanged<ProductCategory> onCategorySelected;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: .horizontal,
+      scrollDirection: Axis.horizontal,
       child: Row(
         spacing: 12,
         children: [
-          for (final category in categories)
+          for (final category in ProductCategory.values)
             ChoiceChip(
               label: Text(category.label),
               selected: selectedCategory == category,

@@ -42,7 +42,7 @@ class ProductCard extends StatelessWidget {
                       ),
                       Text(
                         '${product.weightGrams}g',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black54,
                           fontWeight: FontWeight.w500,
                         ),
