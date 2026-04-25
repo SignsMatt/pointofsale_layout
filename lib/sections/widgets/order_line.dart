@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pointofsale_layout/sections/widgets/circle_icon_button.dart';
 import 'package:pointofsale_layout/models/order_item.dart';
 import 'package:pointofsale_layout/theme/app_colors.dart';
+
+final _dangerIconButtonStyle = IconButton.styleFrom(
+  backgroundColor: AppColors.dangerSurface,
+  foregroundColor: AppColors.danger,
+);
 
 class OrderLine extends StatelessWidget {
   const OrderLine({super.key, required this.item});
@@ -31,26 +35,18 @@ class OrderLine extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.w600),
           ),
         ),
-        CircleIconButton(
-          icon: item.destructiveControl ? Icons.delete_outline : Icons.remove,
+        IconButton(
           onPressed: () {},
-          foregroundColor: item.destructiveControl
-              ? AppColors.danger
-              : AppColors.inkMuted,
-          backgroundColor: item.destructiveControl
-              ? AppColors.dangerSurface
-              : AppColors.neutralSurface,
+          style: item.destructiveControl ? _dangerIconButtonStyle : null,
+          icon: Icon(
+            item.destructiveControl ? Icons.delete_outline : Icons.remove,
+          ),
         ),
         Text(
           item.quantity.toString(),
           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
         ),
-        CircleIconButton(
-          icon: Icons.add,
-          onPressed: () {},
-          foregroundColor: AppColors.inkMuted,
-          backgroundColor: AppColors.neutralSurface,
-        ),
+        IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
         SizedBox(
           width: 52,
           child: Text(

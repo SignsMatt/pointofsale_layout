@@ -44,7 +44,10 @@ class CashlessCreditCard extends StatelessWidget {
             TextButton(
               style: tagButtonStyle,
               onPressed: () {},
-              child: const Text('Cancel'),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: const Text('Cancel'),
+              ),
             ),
           ],
         ),

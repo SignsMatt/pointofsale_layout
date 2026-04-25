@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pointofsale_layout/models/order_item.dart';
 import 'package:pointofsale_layout/sections/widgets/cashless_credit_card.dart';
-import 'package:pointofsale_layout/sections/widgets/circle_icon_button.dart';
 import 'package:pointofsale_layout/sections/widgets/order_line.dart';
 import 'package:pointofsale_layout/sections/widgets/order_list_fade.dart';
 import 'package:pointofsale_layout/sections/widgets/tag_button_styles.dart';
@@ -36,9 +35,12 @@ class CurrentOrderPanel extends StatelessWidget {
                 TextButton(
                   style: dangerTagButtonStyle,
                   onPressed: () {},
-                  child: const Text('Clear All'),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: const Text('Clear All'),
+                  ),
                 ),
-                CircleIconButton(icon: Icons.settings, onPressed: () {}),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
               ],
             ),
             Expanded(
